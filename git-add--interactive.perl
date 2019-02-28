@@ -1709,7 +1709,8 @@ sub diff_cmd {
 				   @mods);
 	return if (!@them);
 	my $reference = (is_initial_commit()) ? get_empty_tree() : 'HEAD';
-	system(qw(git diff -p --cached), $reference, '--',
+	my $cached = shift() ? "--cached" : "";
+	system(qw(git diff -p $cached), $reference, '--',
 		map { $_->{VALUE} } @them);
 }
 
@@ -1782,6 +1783,7 @@ sub main_loop {
 		   [ 'revert', \&revert_cmd, ],
 		   [ 'add untracked', \&add_untracked_cmd, ],
 		   [ 'patch', \&patch_update_cmd, ],
+		   [ 'diff --cached', \&diff_cmd(1), ],
 		   [ 'diff', \&diff_cmd, ],
 		   [ 'quit', \&quit_cmd, ],
 		   [ 'help', \&help_cmd, ],
