@@ -54,5 +54,12 @@ before_install: ci/install-dependencies.sh
 script: ci/run-build-and-tests.sh
 after_failure: ci/print-test-failures.sh
 
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file_glob: true
+  file: $TRAVIS_BUILD_DIR/**/*
+  skip_cleanup: true
+    
 notifications:
   email: false
